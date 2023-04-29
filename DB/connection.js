@@ -6,4 +6,4 @@ export const connectionDB = async () =>
         .connect(process.env.DB_CLOUD)
         .then((res) => { console.log('DB CONNECTED Done........!'); })
         .catch((err)=>{console.log('DB Connection FAILEDD ..!!!!');})
-}
+} 
