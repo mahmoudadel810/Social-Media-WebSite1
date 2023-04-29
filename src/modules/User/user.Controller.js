@@ -32,7 +32,7 @@ export const profilePicture = async (req, res, next) =>
     }
     const deletedData = await cloudinary.uploader.destroy(user.profilePicPublicId);//old pic addressnew:false
     // handle pic duplicates
-    console.log(deletedData);
+    
 
     return res.status(201).json({ message: 'Profile Uploaded Done' });
 };
@@ -73,7 +73,7 @@ export const coverPictures = async (req, res, next) =>
         next(new Error('You must Log In First', { cause: 400 }));
     }
     const data = await cloudinary.api.delete_resources(user.coverPublicIds);
-    console.log(data);
+   
 
     return res.status(201).json({ message: 'Done' });
 };

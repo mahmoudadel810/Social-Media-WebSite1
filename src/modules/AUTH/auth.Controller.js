@@ -87,7 +87,7 @@ export const Login = async (req, res, next) =>
     const token = tokenGeneration({ payload: { _id: user._id, email: user.email, userName: user.userName } });
 
     const loggedIn = await userModel.findOneAndUpdate({ email }, { isLoggedIn: true });
-    console.log(loggedIn);
+   
 
     if (!loggedIn)
     {

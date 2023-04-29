@@ -16,13 +16,13 @@ const authFunction = async (req, res, next) =>
     }
     const prefix = token.split('Dola__')[1];
     const decode = tokenDecode({ payload: prefix });
-    // console.log(decode);
+    
     if (!decode?._id)
     {
         return next(new Error('Fail To decode', { status: 400 }));
     }
     const user = await userModel.findById(decode._id, ' _id userName email ');
-    // console.log(user);
+    
     if (!user)
     {
         return next(new Error('Fail To get User', { status: 400 }));
@@ -40,23 +40,3 @@ export const auth = () =>
 //-----------------------------------authorization--------------------------------
 
 
-// export const authorization = (accessRoles) =>
-// {
-//     return (req, res, next) =>
-//     {
-        
-//         const { role } = req.user;
-
-//         console.log(
-//            { role, 
-//             accessRoles}
-//         );
-        
-//         if (!accessRoles.includes(role))
-//         {
-//             return next(new Error('unauthorized', { status: 403 }))
-//         }
-//         next();
-
-//     };
-// };

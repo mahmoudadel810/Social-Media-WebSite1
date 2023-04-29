@@ -11,8 +11,7 @@ export const asyncHandler = (API) =>
                 return next(new Error('Email Already Exist', { cause: 409 }));
             }
             stackVar = err.stack;
-            console.log({ err: err.message });
-            console.log(stackVar);
+            
             return next(new Error(err.message));
         });
     };

@@ -46,22 +46,3 @@ const postModel = model.post || model('Post', postSchema);
 export default postModel;
 
 
-
-//hooks 
-
-// postSchema.post('findOnAndUpdate', async function ()
-// {
-//     const { _id } = this.getQuery();
-//     console.log({ data: this.getQuery(), id: _id });
-
-//     const product = await this.model.findOne({ _id });
-//     console.log(product);
-
-//     product.totalVotes = product.likes.length - product.unlikes.length;
-//     product.__v = product.__v + 1;
-//     await product.save();
-
-
-
-
-// });

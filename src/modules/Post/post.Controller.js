@@ -163,7 +163,7 @@ export const likePost = async (req, res, next) =>
         }, {
         new: true
     });
-    console.log('postId after:', postId);
+   
 
     if (!post)
     {
