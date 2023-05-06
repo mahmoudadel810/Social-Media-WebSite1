@@ -17,7 +17,6 @@ export const initiateApp =
         app.use(`${baseUrl}/post`, allRouters.postRouter);
         app.use(`${baseUrl}/comment`, allRouters.commentRouter);
 
-        //app.all ممكن تنحط ف اي مكان عكس التانيه مكان مهيا موجوده .
         app.use('*', ( req, res) =>
         {
             res.status(404).json({ message: 'In-Valid Routing' });

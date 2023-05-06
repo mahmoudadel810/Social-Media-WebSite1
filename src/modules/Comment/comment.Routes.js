@@ -4,21 +4,15 @@ import { asyncHandler } from '../../utils/errorHandling.js';
 import * as controller from './comment.Controller.js';
 import {auth }from '../../middelwares/Auth.js';
 const router = Router();
-//==============================================================================================
 
+
+//======================================commentRoutes=========================================
 router.post('/addComment', auth(), asyncHandler(controller.addComment))
 router.delete('/deleteComment/:commentId', auth(), asyncHandler(controller.deleteComment))
 
 
-
-
  
-
-
-
-
- 
-// =====================================replyRoutes==========================================
+// =====================================replyRoutes===========================================
 
 
 router.post('/replyOnComment', auth(), asyncHandler(controller.replyOnComment));

@@ -7,13 +7,11 @@ import { nanoid } from 'nanoid';
 
 
 
-
-
-//====================================signUP===================================================
+//====================================signUP===================================================================
 
 export const signUp = async (req, res, next) =>
 {
-    const { firstName, lastName, email, password, userName } = req.body; //cpass : validation
+    const { firstName, lastName, email, password, userName } = req.body;
 
     const userCheck = await userModel.findOne({ email }).select("_id email");
     if (userCheck)
@@ -49,7 +47,7 @@ export const signUp = async (req, res, next) =>
 
 };
 
-//=====================================confirmationLink================================================
+//=====================================confirmationLink========================================================
 
 export const confirmationLink = async (req, res, next) =>
 {
@@ -67,16 +65,18 @@ export const confirmationLink = async (req, res, next) =>
     res.status(200).json({ message: 'Confirmed Done', decode });
 };
 
-//=========================================Login–================================================
+//=========================================Login–==============================================================
+
 export const Login = async (req, res, next) =>
 {
     const { email, password } = req.body;
-    const user = await userModel.findOne({ email, isConfirmed: true, isLoggedIn: false }); //can't log twice
+    const user = await userModel.findOne({ email, isConfirmed: true });
 
     if (!user)
     {
         return next(new Error('Some Thing Went Wrong ', { cause: 400 }));
     }
+
     const match = bcrypt.compareSync(password, user.password);
 
 
@@ -87,7 +87,7 @@ export const Login = async (req, res, next) =>
     const token = tokenGeneration({ payload: { _id: user._id, email: user.email, userName: user.userName } });
 
     const loggedIn = await userModel.findOneAndUpdate({ email }, { isLoggedIn: true });
-   
+
 
     if (!loggedIn)
     {
@@ -95,7 +95,7 @@ export const Login = async (req, res, next) =>
     }
     res.status(201).json({ message: 'Login Success', token });
 };
-//===================================forgetPassword================================================
+//===================================forgetPassword============================================================
 export const forgetPassword = async (req, res, next) =>
 {
     const { email } = req.body;
@@ -115,8 +115,8 @@ export const forgetPassword = async (req, res, next) =>
     {
         return next(new Error('Fail To Send Code !', { cause: 400 }));
     }
-    user.code = code; // Add the code to the user
-    await user.save(); // Save the updated user to the database
+    user.code = code;
+    await user.save();
     return res.status(200).json({ message: 'Code generated successfully.' });
 };
 //=========================================verifyCode================================================
@@ -135,17 +135,16 @@ export const verifyResetCode = async (req, res, next) =>
 
     const hashedPassword = bcrypt.hashSync(newPassword, +process.env.SALT_ROUNDS);
 
-    // Update  user password and reset the code to null again for future resets
     const updatedUser = await userModel.findOneAndUpdate(
         { _id: user._id },
         {
-            $set: { password: hashedPassword, code: nanoid(10) } // letCodeChange every time u deal with it for secuirty reasons
+            $set: { password: hashedPassword, code: nanoid(5) }
         },
         { new: true }
     );
-    res.status(201).json({ message: "Password updated successfully",  updatedUser });
+    res.status(201).json({ message: "Password updated successfully", updatedUser });
 };
-//====================================updatePassword================================================
+//====================================updatePassword===========================================================
 export const updatePassword = async (req, res, next) =>
 {
     const { _id } = req.user;
@@ -168,7 +167,9 @@ export const updatePassword = async (req, res, next) =>
     const updated = await userModel.findByIdAndUpdate({ _id },
         {
             password: hashedPassword
-        }, { new: true });
+        },
+        { new: true });
+
     if (!updated)
     {
         return next(new Error('Can Not Update Your Password !', { cause: 400 }));
@@ -185,16 +186,17 @@ export const logOut = async (req, res, next) =>
         {
             $set: {
                 isloggedOut: true,
-                isLoggedIn : false
+                isLoggedIn: false
             }
-        }, {
-        new: true
-    });
+        },
+        {
+            new: true
+        });
     if (!user)
     {
         return next(new Error('Can Not Log Out', { cause: 401 }));
     }
-    res.status(200).json({ message: 'Logged Out Success', user });
+    res.status(200).json({ message: 'Logged Out Success' });
 };
 
 

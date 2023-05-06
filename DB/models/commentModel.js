@@ -1,6 +1,5 @@
 import { Schema,  model } from 'mongoose';
 
-// Declare the Schema of the Mongo model
 const commentSchema = new Schema({
 
     commentBody: {

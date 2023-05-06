@@ -2,8 +2,6 @@ import { Schema, model, } from "mongoose";
 import bcrypt from 'bcryptjs';
 import { nanoid } from "nanoid";
 
-
-
 const userSchema = new Schema({
     firstName: String,
     lastName: String,
@@ -24,7 +22,7 @@ const userSchema = new Schema({
     profilePicPublicId: String,
 
     covers: [String],
-    coverPublicIds: [String], 
+    coverPublicIds: [String],
 
     isConfirmed: {
         type: Boolean,
@@ -33,16 +31,16 @@ const userSchema = new Schema({
     isLoggedIn: {
         type: Boolean,
         default: false
-    }, 
+    },
     code: {
         type: String,
-        default: nanoid() //code not Null| with defult , sent to user 5 dig back to 8 digi for security reasons
+        default: nanoid() //code not Null| with defult ,for security reasons
     },
     isloggedOut: {
         type: Boolean,
         default: false
     }
-  
+
 
 }, {
     timestamps: true
@@ -50,15 +48,13 @@ const userSchema = new Schema({
 
 //hooks
 
-userSchema.pre('save', function (next, doc) //hooks فانكشن بتتنفذ قبل حاجه معينه
+userSchema.pre('save', function (next, doc) //hooks 
 {
     this.password = bcrypt.hashSync(this.password, +process.env.SALT_ROUNDS);
     next();
 });
 
-//Avoid Drop Collection
 const userModel = model.User || model('User', userSchema);
-
 
 export default userModel;
 

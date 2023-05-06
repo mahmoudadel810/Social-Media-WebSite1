@@ -33,7 +33,7 @@ export const privatePost = async (req, res, next) =>
     const check = await postModel.findOne({ _id: postId });
     if (!check)
     {
-        return res.status(404).json({ message: 'No Such Post Found' }); //Step for Handle Response
+        return res.status(404).json({ message: 'No Such Post Found' }); 
     }
 
     const post = await postModel.findOneAndUpdate({ _id: postId, createdBy: userName },
@@ -42,7 +42,8 @@ export const privatePost = async (req, res, next) =>
                 privacy: 'privatee',
             }
 
-        }, { new: true });
+        },
+        { new: true });
 
     if (!post)
     {
@@ -59,7 +60,7 @@ export const getPrivatePost = async (req, res, next) =>
 
     if (!posts.length)
     {
-        return next(new Error('Can Not Show All Private Posts', { cause: 404 }));
+        return next(new Error('You Have No Private Posts', { cause: 404 }));
     }
     res.status(201).json({ message: 'here is All Private Posts  ', posts });
 };

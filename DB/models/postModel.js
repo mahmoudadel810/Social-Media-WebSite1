@@ -1,15 +1,13 @@
 import { model, Schema, } from 'mongoose';
 
 
-// Declare the Schema of the Mongo model
 const postSchema = new Schema({
-
     title: String,
     text: String,
     likes: [{
         type: String,
         ref: 'User',
-        
+
     }],
     unlikes: [{
         type: String,
@@ -29,10 +27,10 @@ const postSchema = new Schema({
     isDeleted: {
         type: Boolean,
         default: false
-    }, 
+    },
     privacy: {
         type: String,
-        enum: ['publicc' , 'privatee'],
+        enum: ['publicc', 'privatee'],
         default: 'publicc'
     }
 },

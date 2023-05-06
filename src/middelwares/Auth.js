@@ -10,11 +10,11 @@ const authFunction = async (req, res, next) =>
     {
         return next(new Error('Focus!! Enter Your Token', { status: 400 }));
     }
-    if (!token.startsWith('Dola__'))
+    if (!token.startsWith(process.env.BEARER_KEY))
     {
         return next(new Error('Wrong Prefix', { status: 401 }));
     }
-    const prefix = token.split('Dola__')[1];
+    const prefix = token.split(process.env.BEARER_KEY)[1];
     const decode = tokenDecode({ payload: prefix });
     
     if (!decode?._id)
@@ -36,7 +36,5 @@ export const auth = () =>
     return asyncHandler(authFunction);
 };
 
-
-//-----------------------------------authorization--------------------------------
 
 
