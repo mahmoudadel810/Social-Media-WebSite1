@@ -14,8 +14,9 @@ const commentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Post'
     },
-    replies: [{
-        type: String,
+    replies: [{ //LLL
+        type: String,  
+
         ref: 'Reply'
     }] 
 },{
